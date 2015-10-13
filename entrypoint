@@ -1,0 +1,11 @@
+#!/bin/bash
+
+useradd $useraddOptions $user
+chown root:root /home/$user
+chmod 755 /home/$user
+echo "$user:$pass" | chpasswd $chpasswdOptions
+cat /home/$user/.ssh/keys/* >> /home/$user/.ssh/authorized_keys
+chown $user /home/$user/.ssh/authorized_keys
+chmod 600 /home/$user/.ssh/authorized_keys
+
+exec /usr/sbin/sshd -D
