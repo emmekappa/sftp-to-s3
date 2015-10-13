@@ -1,13 +1,18 @@
 FROM ubuntu:14.04
 MAINTAINER Michele Cantelli <emmekappa@gmail.com>
 
-
+# SSH username and password
 ENV SFTP_USER=sftp
-ENV SFTP_PASSWORD=sftp
-ENV S3_IDENTITY=A
-ENV S3_CREDENTIAL=B
+ENV SFTP_PASSWORD=changeme1
 
-#ENV DEBIAN_FRONTEND=noninteractive 
+# S3 configuration
+ENV S3_IDENTITY=EIDTME
+ENV S3_CREDENTIAL=EDITME
+ENV S3_BUCKET=EDITME
+# S3 key should start with a slash '/'
+ENV S3_KEY=/EDITME 
+
+ENV DEBIAN_FRONTEND=noninteractive 
 
 RUN apt-get update
 RUN apt-get -y install openssh-server
@@ -17,13 +22,12 @@ RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git && \
 	./autogen.sh && \
 	./configure && \
 	make && \
-	sudo make install 
+	make install 
 
-#RUN mkdir -p /var/run/sshd
+RUN mkdir -p /var/run/sshd
 
-# Copy configuration and entrypoint script
-COPY sshd_config /etc/ssh/sshd_config
 COPY entrypoint /
+RUN chmod +x /entrypoint 
 
 EXPOSE 22
 
