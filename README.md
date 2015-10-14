@@ -14,7 +14,7 @@ Docker image which provides an SFTP access to a specified S3 bucket.
     	--privileged \
 		-p 222:22 \
 		-d \
-    	sftp-to-s3 
+    	emmekappa/sftp-to-s3 
 
 Ad after that you can try to login via `sftp`
  
