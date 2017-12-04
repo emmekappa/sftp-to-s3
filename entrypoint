@@ -18,7 +18,7 @@ rm -vfr /home/$SFTP_USER
 ln -s /mnt/s3 /home/$SFTP_USER
 
 echo "SFTP user: $SFTP_USER"
-echo "S3 Bucker: $S3_BUCKET"
+echo "S3 Bucket: $S3_BUCKET"
 echo "S3 Key: $S3_KEY"
 echo "Ready to accept connections..."
 exec /usr/sbin/sshd -D
