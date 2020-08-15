@@ -6,7 +6,7 @@ Docker image which provides an SFTP access to a specified S3 bucket.
 
 Pull the image from docker hub repository 
 
-    docker pull AlJohri/sftp-to-s3
+    docker pull aljohri/sftp-to-s3
 
 Run the container with 
 
@@ -19,7 +19,7 @@ Run the container with
         --privileged \
         -p 222:22 \
         -d \
-        AlJohri/sftp-to-s3
+        aljohri/sftp-to-s3
 
 - S3 Credentials are provided via a IAM Role so need to pass AWS credentials via environment variables.
 - `S3_PREFIX` must start with a `/` and defaults to `/`
