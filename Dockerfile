@@ -1,16 +1,16 @@
-FROM ubuntu:14.04
-MAINTAINER Michele Cantelli <emmekappa@gmail.com>
+FROM ubuntu:20.04
+MAINTAINER Al Johri <al.johri@gmail.com>
+
+ENV S3FS_DEBUG_LEVEL=info
 
 # SSH username and password
-ENV SFTP_USER=sftp
-ENV SFTP_PASSWORD=changeme1
+ENV SFTP_USER=user
+ENV SFTP_PASSWORD=password
 
 # S3 configuration
-ENV S3_IDENTITY=EIDTME
-ENV S3_CREDENTIAL=EDITME
-ENV S3_BUCKET=EDITME
-# S3 key should start with a slash '/'
-ENV S3_KEY=/EDITME 
+ENV S3_BUCKET=mybucket
+# S3 prefix should start with a slash '/'
+ENV S3_PREFIX=/
 
 ENV DEBIAN_FRONTEND=noninteractive 
 

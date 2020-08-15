@@ -1,24 +1,21 @@
 #!/bin/bash
 
 adduser --disabled-password --gecos "" $SFTP_USER
-#useradd $SFTP_USER
-#chown root:root /home/$SFTP_USER
-#chmod 755 /home/$SFTP_USER
 echo "$SFTP_USER:$SFTP_PASSWORD" | chpasswd 
-#cat /home/$user/.ssh/keys/* >> /home/$user/.ssh/authorized_keys
-#chown $user /home/$user/.ssh/authorized_keys
-#chmod 600 /home/$user/.ssh/authorized_keys
 
 echo $S3_IDENTITY:$S3_CREDENTIAL > /s3credentials
 chmod 600 /s3credentials
 
 mkdir -p /mnt/s3
-s3fs $S3_BUCKET:$S3_KEY /mnt/s3 -o passwd_file=/s3credentials -o allow_other -o uid=$(id -u $SFTP_USER)
 rm -vfr /home/$SFTP_USER
 ln -s /mnt/s3 /home/$SFTP_USER
 
 echo "SFTP user: $SFTP_USER"
 echo "S3 Bucket: $S3_BUCKET"
 echo "S3 Key: $S3_KEY"
+
+/usr/sbin/sshd
 echo "Ready to accept connections..."
-exec /usr/sbin/sshd -D
+
+s3fs $S3_BUCKET:$S3_KEY /mnt/s3 -o iam_role -o allow_other -o uid=$(id -u $SFTP_USER) -o dbglevel=$S3FS_DEBUG_LEVEL -f
+
