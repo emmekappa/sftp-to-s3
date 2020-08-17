@@ -1,10 +1,7 @@
 #!/bin/bash
 
 adduser --disabled-password --gecos "" $SFTP_USER
-echo "$SFTP_USER:$SFTP_PASSWORD" | chpasswd 
-
-echo $S3_IDENTITY:$S3_CREDENTIAL > /s3credentials
-chmod 600 /s3credentials
+echo "$SFTP_USER:$SFTP_PASSWORD" | chpasswd
 
 mkdir -p /mnt/s3
 rm -vfr /home/$SFTP_USER
