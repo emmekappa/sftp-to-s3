@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+task-build() {
+	docker build . \
+    --build-arg SFTP_USER=user \
+    --build-arg SFTP_PUBLIC_KEY="$(cat ~/.ssh/id_rsa.pub)" \
+    -t sftp-to-s3
+}
+
+task-run() {
+    docker run \
+        -v $HOME/.aws/credentials:/root/.aws/credentials:ro \
+        -e SFTP_USER=user \
+        -e SFTP_PASSWORD=password \
+        -e AWS_PROFILE=default \
+        -e S3_BUCKET=lnl-sandbox \
+        -e S3_KEY=/al.johri \
+        -e S3FS_DEBUG_LEVEL=info \
+        --privileged \
+        --rm \
+        -p 222:22 \
+        sftp-to-s3 \
+        "$@"
+}

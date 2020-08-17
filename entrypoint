@@ -14,5 +14,10 @@ echo "S3 Key: $S3_KEY"
 /usr/sbin/sshd
 echo "Ready to accept connections..."
 
-s3fs $S3_BUCKET:$S3_KEY /mnt/s3 -o iam_role -o allow_other -o uid=$(id -u $SFTP_USER) -o dbglevel=$S3FS_DEBUG_LEVEL -f
-
+if [ -z $AWS_PROFILE ]; then
+	echo "Authenticating with IAM Role"
+	s3fs $S3_BUCKET:$S3_KEY /mnt/s3 -o iam_role -o allow_other -o uid=$(id -u $SFTP_USER) -o dbglevel=$S3FS_DEBUG_LEVEL -f
+else
+	echo "Authenticating with AWS_PROFILE: $AWS_PROFILE"
+	s3fs $S3_BUCKET:$S3_KEY /mnt/s3 -o profile=$AWS_PROFILE -o allow_other -o uid=$(id -u $SFTP_USER) -o dbglevel=$S3FS_DEBUG_LEVEL -f
+fi
